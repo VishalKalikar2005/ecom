@@ -34,8 +34,8 @@ type Product struct {
 type ProductUser struct {
 	ProductID   primitive.ObjectID `bson:"_id"`
 	ProductName *string            `json:"product_name" bson:"product_name" validate:"required"`
-	Price       *string            `json:"price" bson:"price" validate:"required"`
-	Rating      *uint8             `json:"rating" bson:"rating" validate:"omitempty,gte=0,lte=5"`
+	Price       int                `json:"price" bson:"price" validate:"required"`
+	Rating      *uint              `json:"rating" bson:"rating" validate:"omitempty,gte=0,lte=5"`
 	Image       *string            `json:"image" bson:"image" validate:"omitempty,url"`
 }
 
@@ -51,7 +51,7 @@ type Order struct {
 	OrderID       primitive.ObjectID `json:"_id" bson:"_id"`
 	OrderCart     []ProductUser      `json:"order_cart" bson:"order_cart" validate:"required,dive"`
 	OrderedAt     time.Time          `json:"ordered_at" bson:"ordered_at"`
-	Price         *uint64            `json:"price" bson:"price" validate:"required,gte=1"`
+	Price         int                `json:"price" bson:"price" validate:"required,gte=1"`
 	Discount      *int               `json:"discount" bson:"discount" validate:"omitempty,gte=0,lte=100"`
 	PaymentMethod Payment            `json:"payment_method" bson:"payment_method" validate:"required"`
 }

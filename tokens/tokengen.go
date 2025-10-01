@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -81,16 +81,15 @@ func UpdateAllTokens(signedtoken string, signedrefreshtoken string, userid strin
 	updated_at, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 	updateobj = append(updateobj, bson.E{Key: "updateat", Value: updated_at})
 	upsert := true
-	filter:=bson.M{"userid":userid}
-	opt:=options.UpdateOptions{
+	filter := bson.M{"userid": userid}
+	opt := options.UpdateOptions{
 		Upsert: &upsert,
 	}
-	_,err:=UserData.UpdateOne(ctx,filter,bson.D{
-		{Key: "$set",Value: updateobj},
-
+	_, err := UserData.UpdateOne(ctx, filter, bson.D{
+		{Key: "$set", Value: updateobj},
 	},
 		&opt)
-	if err!=nil{
+	if err != nil {
 		log.Panic(err)
 		return
 	}
